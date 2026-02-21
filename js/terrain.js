@@ -50,7 +50,7 @@ export function generateChunk(chunk) {
         } else if (y === terrainH) {
           block = terrainH <= SEA_LEVEL + 1 ? BLOCKS.SAND : BLOCKS.GRASS
         } else if (y <= SEA_LEVEL) {
-          block = BLOCKS.WATER // (#1) fixed: was `else if (y <= SEA_LEVEL && block === BLOCKS.AIR)`
+          block = BLOCKS.WATER
         } else {
           block = BLOCKS.AIR
         }
