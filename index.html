@@ -16,6 +16,7 @@
         font-weight: bold;
         pointer-events: none;
         text-shadow: 1px 1px 2px black;
+        z-index: 10;
       }
       #instructions {
         position: fixed;
@@ -27,6 +28,7 @@
         text-align: center;
         pointer-events: none;
         text-shadow: 1px 1px 2px black;
+        z-index: 10;
       }
       #blocker {
         position: fixed;
@@ -39,13 +41,14 @@
         font-family: monospace;
         font-size: 24px;
         cursor: pointer;
+        z-index: 20;
       }
     </style>
   </head>
   <body>
     <div id="blocker">Click to Play</div>
     <div id="crosshair">+</div>
-    <div id="instructions">WASD · Move &nbsp;|&nbsp; Space · Jump &nbsp;|&nbsp; Left Click · Break &nbsp;|&nbsp; Right Click · Place</div>
+    <div id="instructions">WASD · Move &nbsp;|&nbsp; Space · Jump/Swim &nbsp;|&nbsp; Left Click · Break &nbsp;|&nbsp; Right Click · Place</div>
 
     <script type="importmap">
       {
