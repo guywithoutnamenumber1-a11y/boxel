@@ -2,14 +2,19 @@ import * as THREE from 'three'
 import { BLOCKS } from './chunk.js'
 
 const GRAVITY       = -28
-const WATER_GRAVITY =  -6  // reduced gravity while submerged (#19)
-const SWIM_FORCE    =   5  // max upward velocity while swimming (#19)
-const WATER_DRAG    =   8  // vertical velocity damping (units/s) while in water (#19)
+const WATER_GRAVITY =  -6  // reduced gravity while submerged
+const SWIM_FORCE    =   5  // max upward velocity while swimming
+const WATER_DRAG    =   8  // vertical velocity damping (units/s) while in water
 const JUMP_FORCE    =  10
 const MOVE_SPEED    =   6
 const PLAYER_HEIGHT =   1.7
 const PLAYER_WIDTH  =   0.4
 const REACH         =   5
+
+// Blocks that are "solid" for physics and raycasting — water is NOT in this list
+function isSolid(block) {
+  return block !== BLOCKS.AIR && block !== BLOCKS.WATER && block > 0
+}
 
 export class Player {
   constructor(camera, world) {
@@ -25,7 +30,7 @@ export class Player {
 
     this.selectedBlock = BLOCKS.GRASS
 
-    // Reusable vectors — never allocated inside the game loop (#6, #7)
+    // Reusable vectors — never allocated inside the game loop
     this._forward = new THREE.Vector3()
     this._right   = new THREE.Vector3()
     this._move    = new THREE.Vector3()
@@ -88,6 +93,14 @@ export class Player {
     this.camera.rotation.x = this.pitch
   }
 
+  // Returns true if the camera (eye) is inside a water block
+  isEyeInWater() {
+    const bx = Math.floor(this.camera.position.x)
+    const by = Math.floor(this.camera.position.y)
+    const bz = Math.floor(this.camera.position.z)
+    return this.world.getBlockWorld(bx, by, bz) === BLOCKS.WATER
+  }
+
   _isInWater() {
     const bx = Math.floor(this.pos.x)
     const by = Math.floor(this.pos.y + PLAYER_HEIGHT * 0.5)
@@ -96,7 +109,6 @@ export class Player {
   }
 
   handleMovement(dt) {
-    // Reuse class-level vectors (#6)
     this._forward.set(-Math.sin(this.yaw), 0, -Math.cos(this.yaw))
     this._right.set(Math.cos(this.yaw), 0, -Math.sin(this.yaw))
     this._move.set(0, 0, 0)
@@ -116,7 +128,6 @@ export class Player {
     const inWater = this._isInWater()
 
     if (inWater) {
-      // Space swims upward while submerged (#19)
       if (this.keys['Space']) {
         this.vel.y = Math.min(this.vel.y + SWIM_FORCE * dt * 20, SWIM_FORCE)
       }
@@ -133,7 +144,6 @@ export class Player {
 
     this.vel.y += (inWater ? WATER_GRAVITY : GRAVITY) * dt
 
-    // Damp vertical velocity in water (#19)
     if (inWater && this.vel.y < 0) {
       this.vel.y += WATER_DRAG * dt
       if (this.vel.y > 0) this.vel.y = 0
@@ -153,7 +163,6 @@ export class Player {
     const w = PLAYER_WIDTH / 2
 
     if (axis === 'y') {
-      // Separate feet/head checks so their resolution can't interfere (#3)
       const corners = [[-w, -w], [w, -w], [-w, w], [w, w]]
 
       if (this.vel.y <= 0) {
@@ -162,7 +171,7 @@ export class Player {
           const by    = Math.floor(this.pos.y)
           const bz    = Math.floor(this.pos.z + sz)
           const block = this.world.getBlockWorld(bx, by, bz)
-          if (block !== BLOCKS.AIR && block !== BLOCKS.WATER && block > 0) {
+          if (isSolid(block)) {
             this.pos.y    = by + 1
             this.vel.y    = 0
             this.onGround = true
@@ -175,7 +184,7 @@ export class Player {
           const by    = Math.floor(this.pos.y + PLAYER_HEIGHT)
           const bz    = Math.floor(this.pos.z + sz)
           const block = this.world.getBlockWorld(bx, by, bz)
-          if (block !== BLOCKS.AIR && block !== BLOCKS.WATER && block > 0) {
+          if (isSolid(block)) {
             this.pos.y = by - PLAYER_HEIGHT
             this.vel.y = 0
             return
@@ -204,7 +213,7 @@ export class Player {
       const bz    = Math.floor(this.pos.z + oz)
       const block = this.world.getBlockWorld(bx, by, bz)
 
-      if (block !== BLOCKS.AIR && block !== BLOCKS.WATER && block > 0) {
+      if (isSolid(block)) {
         if (axis === 'x') {
           this.pos.x = ox > 0 ? bx - w : bx + 1 + w
           this.vel.x = 0
@@ -217,7 +226,7 @@ export class Player {
     }
   }
 
-  // DDA raycast — exact voxel traversal, no floating point step accumulation (#11)
+  // DDA raycast — water is transparent (skipped like air)
   raycast() {
     this._euler.set(this.pitch, this.yaw, 0)
     this._rayDir.set(0, 0, -1).applyEuler(this._euler)
@@ -262,7 +271,8 @@ export class Player {
       }
 
       const block = this.world.getBlockWorld(ix, iy, iz)
-      if (block !== BLOCKS.AIR && block > 0) {
+      // Water is invisible to the raycast — skip it like air
+      if (isSolid(block)) {
         return {
           hit:    { x: ix, y: iy, z: iz },
           before: { x: lx, y: ly, z: lz },
@@ -287,7 +297,6 @@ export class Player {
 
     const { x, y, z } = result.before
 
-    // Full AABB overlap check — prevents placing inside the player (#16)
     const hw = PLAYER_WIDTH / 2
     const overlapX = x + 1 > this.pos.x - hw && x < this.pos.x + hw
     const overlapZ = z + 1 > this.pos.z - hw && z < this.pos.z + hw
