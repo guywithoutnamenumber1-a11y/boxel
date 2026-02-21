@@ -23,12 +23,12 @@ const BLOCK_COLORS = {
 }
 
 const SOLID_FACES = [
-  { dir: [0,  1, 0], corners: [[0,1,0],[1,1,0],[0,1,1],[1,1,1]], face: 'top'    },
-  { dir: [0, -1, 0], corners: [[1,0,0],[0,0,0],[1,0,1],[0,0,1]], face: 'bottom' },
-  { dir: [-1, 0, 0], corners: [[0,0,0],[0,1,0],[0,0,1],[0,1,1]], face: 'side'   },
-  { dir: [1,  0, 0], corners: [[1,1,0],[1,0,0],[1,1,1],[1,0,1]], face: 'side'   },
-  { dir: [0,  0,-1], corners: [[1,0,0],[1,1,0],[0,0,0],[0,1,0]], face: 'side'   },
-  { dir: [0,  0, 1], corners: [[0,0,1],[0,1,1],[1,0,1],[1,1,1]], face: 'side'   },
+  { dir: [0,  1, 0], corners: [[0,1,1],[1,1,1],[0,1,0],[1,1,0]], face: 'top'    },
+  { dir: [0, -1, 0], corners: [[0,0,0],[1,0,0],[0,0,1],[1,0,1]], face: 'bottom' },
+  { dir: [-1, 0, 0], corners: [[0,0,1],[0,1,1],[0,0,0],[0,1,0]], face: 'side'   },
+  { dir: [1,  0, 0], corners: [[1,0,0],[1,1,0],[1,0,1],[1,1,1]], face: 'side'   },
+  { dir: [0,  0,-1], corners: [[0,0,0],[0,1,0],[1,0,0],[1,1,0]], face: 'side'   },
+  { dir: [0,  0, 1], corners: [[1,0,1],[1,1,1],[0,0,1],[0,1,1]], face: 'side'   },
 ]
 
 // Shared water material — transparent blue, double-sided so it's visible from below too
