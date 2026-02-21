@@ -5,13 +5,19 @@ import { BLOCKS } from './chunk.js'
 
 // --- Scene setup ---
 const scene = new THREE.Scene()
-scene.background = new THREE.Color(0x87CEEB)
-scene.fog = new THREE.Fog(0x87CEEB, 60, 120)
+
+const SKY_COLOR   = new THREE.Color(0x87CEEB)
+const WATER_COLOR = new THREE.Color(0x1a5c99)  // deep underwater tint
+
+scene.background = SKY_COLOR.clone()
+scene.fog = new THREE.Fog(SKY_COLOR.clone(), 60, 120)
 
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
 
 const renderer = new THREE.WebGLRenderer({ antialias: true })
 renderer.setSize(window.innerWidth, window.innerHeight)
+renderer.shadowMap.enabled = true
+renderer.shadowMap.type = THREE.PCFSoftShadowMap
 document.body.appendChild(renderer.domElement)
 
 // --- Lighting ---
@@ -20,13 +26,34 @@ scene.add(ambient)
 
 const sun = new THREE.DirectionalLight(0xfffbe0, 1.2)
 sun.position.set(100, 200, 100)
+sun.castShadow = true
+sun.shadow.mapSize.width  = 2048
+sun.shadow.mapSize.height = 2048
+sun.shadow.camera.near   = 0.5
+sun.shadow.camera.far    = 500
+sun.shadow.camera.left   = -100
+sun.shadow.camera.right  =  100
+sun.shadow.camera.top    =  100
+sun.shadow.camera.bottom = -100
 scene.add(sun)
+
+// --- Underwater overlay div for tint ---
+const waterOverlay = document.createElement('div')
+waterOverlay.style.cssText = `
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 60, 140, 0.35);
+  pointer-events: none;
+  display: none;
+  z-index: 5;
+`
+document.body.appendChild(waterOverlay)
 
 // --- World & Player ---
 const world  = new World(scene)
 const player = new Player(camera, world)
 
-// Pre-load spawn area before placing the player (#spawn fix)
+// Pre-load spawn area before placing the player
 for (let dx = -2; dx <= 2; dx++) {
   for (let dz = -2; dz <= 2; dz++) {
     world.loadChunk(dx, dz)
@@ -45,7 +72,7 @@ document.addEventListener('pointerlockchange', () => {
   blocker.style.display = document.pointerLockElement ? 'none' : 'flex'
 })
 
-// --- Block selection HUD (#18) ---
+// --- Block selection HUD ---
 const BLOCK_NAMES = {
   [BLOCKS.GRASS]:  'Grass',
   [BLOCKS.DIRT]:   'Dirt',
@@ -69,6 +96,7 @@ hud.style.cssText = `
   background: rgba(0,0,0,0.35);
   padding: 4px 14px;
   border-radius: 4px;
+  z-index: 10;
 `
 document.body.appendChild(hud)
 
@@ -89,7 +117,8 @@ window.addEventListener('resize', () => {
 })
 
 // --- Game loop ---
-let lastTime = performance.now()
+let lastTime   = performance.now()
+let wasInWater = false
 
 function gameLoop() {
   requestAnimationFrame(gameLoop)
@@ -100,6 +129,27 @@ function gameLoop() {
 
   player.update(dt)
   world.update(player.pos.x, player.pos.z)
+
+  // --- Underwater effect ---
+  const inWater = player.isEyeInWater()
+  if (inWater !== wasInWater) {
+    wasInWater = inWater
+    if (inWater) {
+      // Switch to murky underwater look
+      scene.background = WATER_COLOR.clone()
+      scene.fog.color.copy(WATER_COLOR)
+      scene.fog.near = 2
+      scene.fog.far  = 18
+      waterOverlay.style.display = 'block'
+    } else {
+      // Restore sky
+      scene.background = SKY_COLOR.clone()
+      scene.fog.color.copy(SKY_COLOR)
+      scene.fog.near = 60
+      scene.fog.far  = 120
+      waterOverlay.style.display = 'none'
+    }
+  }
 
   renderer.render(scene, camera)
 }
