@@ -80,7 +80,7 @@ export class Chunk {
 						} else {
 							neighbor = this.getBlock(nx, ny, nz);
 						}
-						if (neighbor !== BLOCKS.AIR && neighbor !== -1) continue;
+						if (neighbor !== BLOCKS.AIR && neighbor !== BLOCKS.WATER && neighbor !== -1) continue;
 						const colorHex = blockColors[face],
 							r = ((colorHex >> 16) & 255) / 255,
 							g = ((colorHex >> 8) & 255) / 255,
@@ -111,8 +111,6 @@ export class Chunk {
 		geometry.computeVertexNormals();
 		const material = new THREE.MeshLambertMaterial({vertexColors: true});
 		this.mesh = new THREE.Mesh(geometry, material);
-		this.mesh.castShadow = true;
-		this.mesh.receiveShadow = true;
 		scene.add(this.mesh);
 	}
 
