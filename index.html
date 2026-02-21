@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Voxel Game</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { background: #00B0FF; overflow: hidden; }
+      canvas { display: block; }
+      #crosshair {
+        position: fixed;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        font-size: 28px;
+        font-weight: bold;
+        pointer-events: none;
+        text-shadow: 1px 1px 2px black;
+      }
+      #instructions {
+        position: fixed;
+        bottom: 20px; left: 50%;
+        transform: translateX(-50%);
+        color: white;
+        font-family: monospace;
+        font-size: 14px;
+        text-align: center;
+        pointer-events: none;
+        text-shadow: 1px 1px 2px black;
+      }
+      #blocker {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-family: monospace;
+        font-size: 24px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="blocker">Click to Play</div>
+    <div id="crosshair">+</div>
+    <div id="instructions">WASD · Move &nbsp;|&nbsp; Space · Jump &nbsp;|&nbsp; Left Click · Break &nbsp;|&nbsp; Right Click · Place</div>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://unpkg.com/three@0.162.0/build/three.module.js"
+        }
+      }
+    </script>
+    <script type="module" src="js/main.js"></script>
+  </body>
+</html>
