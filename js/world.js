@@ -9,7 +9,6 @@ export class World {
     this.scene  = scene
     this.chunks = new Map() // key: "cx,cz" -> Chunk
 
-    // Track last chunk position to skip redundant load scans (#8)
     this._lastPCX = null
     this._lastPCZ = null
   }
@@ -40,7 +39,6 @@ export class World {
     }
   }
 
-  // Only rescans when the player crosses a chunk boundary (#8)
   update(px, pz) {
     const pcx = Math.floor(px / CHUNK_SIZE)
     const pcz = Math.floor(pz / CHUNK_SIZE)
@@ -74,7 +72,6 @@ export class World {
     return chunk.getBlock(lx, wy, lz)
   }
 
-  // Rebuild the edited chunk, plus any neighbor chunks the edit touches (#2)
   setBlockWorld(wx, wy, wz, type) {
     const cx    = Math.floor(wx / CHUNK_SIZE)
     const cz    = Math.floor(wz / CHUNK_SIZE)
