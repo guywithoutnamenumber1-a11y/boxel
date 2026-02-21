@@ -12,8 +12,6 @@ const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerH
 
 const renderer = new THREE.WebGLRenderer({ antialias: true })
 renderer.setSize(window.innerWidth, window.innerHeight)
-renderer.shadowMap.enabled = true
-renderer.shadowMap.type = THREE.PCFSoftShadowMap
 document.body.appendChild(renderer.domElement)
 
 // --- Lighting ---
@@ -22,15 +20,6 @@ scene.add(ambient)
 
 const sun = new THREE.DirectionalLight(0xfffbe0, 1.2)
 sun.position.set(100, 200, 100)
-sun.castShadow = true
-sun.shadow.mapSize.width  = 2048
-sun.shadow.mapSize.height = 2048
-sun.shadow.camera.near   = 0.5
-sun.shadow.camera.far    = 500
-sun.shadow.camera.left   = -100
-sun.shadow.camera.right  =  100
-sun.shadow.camera.top    =  100
-sun.shadow.camera.bottom = -100
 scene.add(sun)
 
 // --- World & Player ---
