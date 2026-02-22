@@ -24,7 +24,7 @@ function loadTex(path) {
 const BLOCK_TEXTURES = {
 	[BLOCKS.GRASS]: {
 		top: loadTex('https://i.imgur.com/tZojFao.png'),
-		side: loadTex('https://i.imgur.com/jxPedAF.png'),
+		side: loadTex('https://i.imgur.com/YcUhAVn.png'),
 		bottom: loadTex('(placeholder)')
 	},
 	[BLOCKS.DIRT]: {
