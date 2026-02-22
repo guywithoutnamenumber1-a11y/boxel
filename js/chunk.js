@@ -48,9 +48,9 @@ const BLOCK_TEXTURES = {
 		bottom: loadTex('https://i.imgur.com/dw51br0.png')
 	},
 	[BLOCKS.SAND]: {
-		top: loadTex('(placeholder)'),
-		side: loadTex('(placeholder)'),
-		bottom: loadTex('(placeholder)')
+		top: loadTex('https://i.imgur.com/3KCdLkg.png'),
+		side: loadTex('https://i.imgur.com/3KCdLkg.png'),
+		bottom: loadTex('https://i.imgur.com/3KCdLkg.png')
 	},
 
 
