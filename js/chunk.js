@@ -33,14 +33,14 @@ const BLOCK_TEXTURES = {
 		bottom: loadTex('https://i.imgur.com/ruQU0Qv.png')
 	},
 	[BLOCKS.STONE]: {
-		top: loadTex('(placeholder)'),
-		side: loadTex('(placeholder)'),
-		bottom: loadTex('(placeholder)')
+		top: loadTex('https://i.imgur.com/VX2QBfr.png'),
+		side: loadTex('https://i.imgur.com/VX2QBfr.png'),
+		bottom: loadTex('https://i.imgur.com/VX2QBfr.png')
 	},
 	[BLOCKS.WOOD]: {
-		top: loadTex('(placeholder)'),
+		top: loadTex('https://i.imgur.com/mUeO1o6.png'),
 		side: loadTex('(placeholder)'),
-		bottom: loadTex('(placeholder)')
+		bottom: loadTex('https://i.imgur.com/mUeO1o6.png')
 	},
 	[BLOCKS.LEAVES]: {
 		top: loadTex('(placeholder)'),
