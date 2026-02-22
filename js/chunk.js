@@ -39,7 +39,7 @@ const BLOCK_TEXTURES = {
 	},
 	[BLOCKS.WOOD]: {
 		top: loadTex('https://i.imgur.com/mUeO1o6.png'),
-		side: loadTex('(placeholder)'),
+		side: loadTex('https://i.imgur.com/LWdPZV8.png'),
 		bottom: loadTex('https://i.imgur.com/mUeO1o6.png')
 	},
 	[BLOCKS.LEAVES]: {
