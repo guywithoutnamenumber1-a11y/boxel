@@ -24,13 +24,13 @@ function loadTex(path) {
 const BLOCK_TEXTURES = {
 	[BLOCKS.GRASS]: {
 		top: loadTex('https://i.imgur.com/mIfJHmt.png'),
-		side: loadTex('https://i.imgur.com/VKJQUqR.png'),
+		side: loadTex('https://i.imgur.com/2uDKrIn.png'),
 		bottom: loadTex('https://i.imgur.com/2uDKrIn.png')
 	},
 	[BLOCKS.DIRT]: {
-		top: loadTex('https://i.imgur.com/ruQU0Qv.png'),
-		side: loadTex('https://i.imgur.com/ruQU0Qv.png'),
-		bottom: loadTex('https://i.imgur.com/ruQU0Qv.png')
+		top: loadTex('https://i.imgur.com/2uDKrIn.png'),
+		side: loadTex('https://i.imgur.com/2uDKrIn.png'),
+		bottom: loadTex('https://i.imgur.com/2uDKrIn.png')
 	},
 	[BLOCKS.STONE]: {
 		top: loadTex('https://i.imgur.com/VX2QBfr.png'),
