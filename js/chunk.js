@@ -52,7 +52,7 @@ const BLOCK_TEXTURES = {
 		side: loadTex('https://i.imgur.com/3KCdLkg.png'),
 		bottom: loadTex('https://i.imgur.com/3KCdLkg.png')
 	},
-
+}
 
 const FACES = [
 	{dir: [0, 1, 0], corners: [[0,1,0],[1,1,0],[0,1,1],[1,1,1]], face: 'top'},
