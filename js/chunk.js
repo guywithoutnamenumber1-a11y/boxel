@@ -25,12 +25,12 @@ const BLOCK_TEXTURES = {
 	[BLOCKS.GRASS]: {
 		top: loadTex('https://i.imgur.com/tZojFao.png'),
 		side: loadTex('https://i.imgur.com/YcUhAVn.png'),
-		bottom: loadTex('(placeholder)')
+		bottom: loadTex('https://i.imgur.com/ruQU0Qv.png')
 	},
 	[BLOCKS.DIRT]: {
-		top: loadTex('(placeholder)'),
-		side: loadTex('(placeholder)'),
-		bottom: loadTex('(placeholder)')
+		top: loadTex('https://i.imgur.com/ruQU0Qv.png'),
+		side: loadTex('https://i.imgur.com/ruQU0Qv.png'),
+		bottom: loadTex('https://i.imgur.com/ruQU0Qv.png')
 	},
 	[BLOCKS.STONE]: {
 		top: loadTex('(placeholder)'),
