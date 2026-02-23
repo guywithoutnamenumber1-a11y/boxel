@@ -6,7 +6,7 @@ import { BLOCKS } from './chunk.js'
 // --- Scene setup ---
 const scene = new THREE.Scene()
 
-const SKY_COLOR   = new THREE.Color(0x87CEEB)
+const SKY_COLOR   = new THREE.Color(0x#343834)
 const WATER_COLOR = new THREE.Color(0x1a5c99)  // deep underwater tint
 
 scene.background = SKY_COLOR.clone()
